@@ -978,8 +978,9 @@ def savedocx(document, coreprops, appprops, contenttypes, websettings,
         output, mode='w', compression=zipfile.ZIP_DEFLATED)
 
     # Move to the template data path
-    prev_dir = os.path.abspath('.')  # save previous working dir
-    os.chdir(template_dir)
+    #prev_dir = os.path.abspath('.')  # save previous working dir
+    #os.chdir(template_dir)
+    tdir = os.path.join(os.path.abspath(os.path.dirname(__file__)),'template')
 
     # Serialize our trees into out zip file
     treesandfiles = {document:     'word/document.xml',
@@ -995,15 +996,15 @@ def savedocx(document, coreprops, appprops, contenttypes, websettings,
 
     # Add & compress support files
     files_to_ignore = ['.DS_Store']  # nuisance from some os's
-    for dirpath, dirnames, filenames in os.walk('.'):
+    for dirpath, dirnames, filenames in os.walk(tdir):
         for filename in filenames:
             if filename in files_to_ignore:
                 continue
             templatefile = join(dirpath, filename)
-            archivename = templatefile[2:]
-            log.info('Saving: %s', archivename)
+            archivename = templatefile.replace(tdir,'')[1:]
+            log.info('Saving: %s' % archivename)
             docxfile.write(templatefile, archivename)
     log.info('Saved new file to: %r', output)
     docxfile.close()
-    os.chdir(prev_dir)  # restore previous working dir
+    #os.chdir(prev_dir)  # restore previous working dir
     return
