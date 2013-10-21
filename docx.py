@@ -971,9 +971,8 @@ def wordrelationships(relationshiplist):
 
 
 def savedocx(document, coreprops, appprops, contenttypes, websettings,
-             wordrelationships, output):
+             wordrelationships, output, template_dir=None):
     '''Save a modified document'''
-    assert os.path.isdir(template_dir)
     docxfile = zipfile.ZipFile(
         output, mode='w', compression=zipfile.ZIP_DEFLATED)
 
@@ -981,6 +980,9 @@ def savedocx(document, coreprops, appprops, contenttypes, websettings,
     #prev_dir = os.path.abspath('.')  # save previous working dir
     #os.chdir(template_dir)
     tdir = os.path.join(os.path.abspath(os.path.dirname(__file__)),'template')
+    if template_dir:
+        assert os.path.isdir(template_dir)
+        tdir = template_dir
 
     # Serialize our trees into out zip file
     treesandfiles = {document:     'word/document.xml',
