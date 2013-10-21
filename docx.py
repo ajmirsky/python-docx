@@ -981,7 +981,6 @@ def savedocx(document, coreprops, appprops, contenttypes, websettings,
     #os.chdir(template_dir)
     tdir = os.path.join(os.path.abspath(os.path.dirname(__file__)),'template')
     if template_dir:
-        assert os.path.isdir(template_dir)
         tdir = template_dir
 
     # Serialize our trees into out zip file
